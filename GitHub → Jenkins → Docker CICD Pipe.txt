@@ -1,0 +1,56 @@
+GitHub → Jenkins → Docker CI/CD Pipeline
+(Step-by-Step)
+Step 1: Prepare GitHub Repository
+
+Ensure your repository contains a Dockerfile and index.html file.
+FROM nginx:latest
+RUN rm -rf /usr/share/nginx/html/*
+COPY index.html /usr/share/nginx/html/index.html
+
+Step 2: Setup Jenkins
+
+Install Jenkins and required plugins: Git, GitHub Integration.
+
+Step 3: Give Docker Permission to Jenkins
+
+sudo usermod -aG docker jenkins
+sudo systemctl restart Jenkins
+
+Step 4: Create Freestyle Job
+
+Create a new Freestyle project in Jenkins named 'web-server'.
+
+Step 5: Connect GitHub Repository
+https://github.com/<your-username>/<your-repo>.git
+
+Step 6: Enable Webhook Trigger
+Enable 'GitHub hook trigger for GITScm polling' in Build Triggers.
+
+Step 7: Add Docker Build Commands
+
+docker stop myapp || true
+docker rm myapp || true
+docker build -t myapp .
+docker run -d -p 8000:80 --name myapp myapp
+
+Step 8: Configure GitHub Webhook
+
+Payload URL:
+http://<your-server-ip>:8080/github-webhook/
+
+Content type:
+application/json
+
+Event:
+Just the push event
+
+Step 9: Open Required Ports
+Allow ports 8080 (Jenkins) and 8000 (application) in your server firewall.
+
+Step 10: Test Pipeline
+
+git add .
+git commit -m "test webhook"
+git push origin main
+Access Application
+http://<your-server-ip>:8000

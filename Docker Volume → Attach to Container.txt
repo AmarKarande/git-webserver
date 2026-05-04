@@ -1,0 +1,40 @@
+Docker Volume → Attach to Container (Step-by-Step)
+🔹 Step 1: Create a volume
+docker volume create myvolume
+
+🔹 Step 2: Verify volume
+docker volume ls
+
+🔹 Step 3: Run container with volume
+docker run -d \
+  --name mynginx \
+  -p 8081:80 \
+  -v myvolume:/usr/share/nginx/html \
+  nginx:latest
+
+🔹 Step 4: Enter container
+docker exec -it mynginx bash
+
+🔹 Step 5: Add data
+cd /usr/share/nginx/html
+echo "<h1>Hello Docker Volume 🚀</h1>" > index.html
+exit
+
+🔹 Step 6: Check in browser
+http://localhost:8081
+
+👉 You should see your output
+🔹 Step 7: Test persistence
+Remove container
+docker rm -f mynginx
+Recreate container
+docker run -d \
+  --name mynginx2 \
+  -p 8081:80 \
+  -v myvolume:/usr/share/nginx/html \
+  web
+
+👉 Open browser again → data still there ✅
+
+🔍 Step 8: Inspect volume
+docker volume inspect myvolume

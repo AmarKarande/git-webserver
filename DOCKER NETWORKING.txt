@@ -1,0 +1,19 @@
+DOCKER NETWORKING
+
+1) CREATE CUSTOM NETWORK ---    docker network create custom
+2 ) docker network ls
+3) docker network inspect custom
+
+
+* Run the containers in custom bridge network
+docker run -it --network custom --name busybox1 busybox
+
+docker run -it --network custom --name busybox2 busybox
+\
+for ip  == hostname -i
+for hostname = hostname
+
+Default bridge   | IP only
+
+ Custom bridge   | IP + hostname + container name
+

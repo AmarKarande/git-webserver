@@ -1,0 +1,80 @@
+DOCker SWARM
+
+1 ) docker swarm init
+2) docker service create imagename
+3) docker service ls ==== show info of service
+4) docker service ps service-id  --- info of the container
+5) docker ps
+6) docker   service   update   <service id>   --replicas   <Number>
+7) docker container stop container_id
+8) docker   ps
+9 ) docker container stop <container id>
+10 ) docker   container    rm   -f   <container id>
+11 ) docker   container   ls   … Note that a replacement container has started
+12 ) docker service rm <service name>   … Remove the service itself
+13)  docker swarm leave --force   || Remove this
+
+🐳 Docker Swarm – Basic Commands Notes
+1️⃣ Initialize Swarm (Manager Node)
+docker swarm init
+
+👉 Creates a swarm cluster and makes current machine manager node
+
+2️⃣ Create a Service
+docker service create --name <service_name> <image_name>
+
+👉 Runs a container as a service in swarm mode
+
+Example:
+
+docker service create --name web nginx
+3️⃣ List Services
+docker service ls
+
+👉 Shows all running services (name, replicas, image)
+
+4️⃣ Check Service Tasks (Containers inside service)
+docker service ps <service_id or service_name>
+
+👉 Shows containers (tasks) running under that service
+
+5️⃣ List Running Containers (normal Docker view)
+docker ps
+
+👉 Shows all running containers on node
+
+6️⃣ Scale Service (Increase/Decrease containers)
+docker service update --replicas <number> <service_name>
+
+Example:
+
+docker service update --replicas 3 web
+
+👉 Runs 3 containers of same service automatically
+
+7️⃣ Stop a Container (NOT recommended in Swarm)
+docker container stop <container_id>
+
+👉 Swarm will automatically restart it (self-healing)
+
+8️⃣ Check Running Containers Again
+docker ps
+9️⃣ Force Stop Container
+docker container stop <container_id>
+🔟 Remove Container Forcefully
+docker container rm -f <container_id>
+1️⃣1️⃣ List Containers Again (Auto Recovery)
+docker container ls
+
+👉 ⚠️ In Swarm, if a container is removed/stopped, new one is automatically created
+
+1️⃣2️⃣ Remove Service Completely
+docker service rm <service_name>
+
+👉 Deletes service + all running containers under it
+
+🔥 Important Swarm Concept (Very Important)
+Swarm = Self-healing system
+If container stops ❌ → Swarm creates new one automatically ✅
+Scaling is handled using replicas
+You never manage containers directly in production Swarm

@@ -1,0 +1,25 @@
+@ Create a dockerfile or run Nginx container and Create custom webpage in that
+Build the dockerfle and run on the webserver at port 8080
+Ans : -
+create a folder like nginx-server
+1) Create index.html
+index.html
+
+add > <h1>Welcome to CDAC </h1>
+
+index.html
+
+create Dockerfile 
+-- >>>>
+
+FROM nginx:latest
+
+# Remove default Nginx HTML files
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy your custom HTML file
+COPY index.html /usr/share/nginx/html/index.html
+
+
+Build the Dockerfile
+RUN the Dockerfile
