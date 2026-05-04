@@ -1,0 +1,69 @@
+🔹 1. Nginx (Static Web Server)
+
+Use this when you just want to serve HTML/CSS/JS files.
+
+📁 Project structure
+nginx-app/
+ ├── index.html
+ └── Dockerfile
+📝 index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nginx Server</title>
+</head>
+<body>
+    <h1>Hello from Nginx Docker!</h1>
+</body>
+</html>
+🐳 Dockerfile
+FROM nginx:alpine
+
+COPY index.html /usr/share/nginx/html/index.html
+
+EXPOSE 80
+▶️ Run
+docker build -t nginx-app .
+docker run -d -p 8081:80 nginx-app
+🔹 2. Apache HTTPD
+
+Good alternative to Nginx for static content.
+
+📁 Structure
+apache-app/
+ ├── index.html
+ └── Dockerfile
+🐳 Dockerfile
+FROM httpd:alpine
+
+COPY index.html /usr/local/apache2/htdocs/
+
+EXPOSE 80
+▶️ Run
+docker build -t apache-app .
+docker run -d -p 8082:80 apache-app
+🔹 3. Tomcat (Java Web Apps)
+
+Used for running Java applications (JSP/Servlet).
+
+📁 Structure
+tomcat-app/
+ ├── webapps/
+ │    └── ROOT/
+ │         └── index.jsp
+ └── Dockerfile
+📝 index.jsp
+<html>
+<body>
+<h1>Hello from Tomcat Docker!</h1>
+</body>
+</html>
+🐳 Dockerfile
+FROM tomcat:9-jdk17
+
+COPY webapps/ROOT /usr/local/tomcat/webapps/ROOT
+
+EXPOSE 8080
+▶️ Run
+docker build -t tomcat-app .
+docker run -d -p 8083:8080 tomcat-app
